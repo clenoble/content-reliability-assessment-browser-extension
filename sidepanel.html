@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Reliability Assessment</title>
+    <link href="styles.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    </style>
+    <script src="prompts.js" defer></script>
+    <script src="sidepanel.js" defer></script>
+</head>
+
+<body>
+    <div class="main-card">
+        <h1>Reliability Assessment</h1>
+        <p class="subtitle">Analyze text for Factual, Opinion, or Fiction content.</p>
+
+        <!-- Analyze Button (for user gesture) -->
+        <button id="analyze-button" class="btn-primary">
+            <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Analyze Page Text
+        </button>
+
+        <!-- Status Message Area -->
+        <div id="status-area" class="status-box hidden">
+            <span id="status-icon" class="status-icon-wrapper"></span>
+            <div class="status-content">
+                <p id="status-message" class="status-message"></p>
+                <p id="status-detail" class="status-detail hidden"></p>
+            </div>
+        </div>
+
+        <!-- Settings Link -->
+        <div class="settings-link-container">
+            <button id="open-settings" class="btn-link">Configure Settings</button>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-container" class="results-container hidden">
+            <div id="score-box" class="score-card">
+                <div class="score-header">
+                    <div>
+                        <p class="classification-label" id="classification"></p>
+                        <p class="final-score-value" id="final-score"></p>
+                    </div>
+                    <div class="score-legend">
+                        <p class="score-legend-title">Final Score</p>
+                        <p class="score-legend-subtitle">(Click for details)</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="raw-assessment-details" class="raw-assessment-details hidden">
+                <h3 class="details-title">Raw Assessment</h3>
+                <div id="assessment-list" class="assessment-list"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
