@@ -86,7 +86,7 @@ We are looking for contributors to help us tackle the new roadmap phases:
 5.  Open a Pull Request.
 
 ## ⚖️ License
-
-Distributed under the GNU Affero General Public License v3.0 (AGPL v3). See LICENSE for more information.
+![AGLP v3 license logo](https://www.gnu.org/graphics/agplv3-155x51.png)
+Distributed under the GNU Affero General Public License v3.0 (AGPL v3). See [LICENSE](https://www.gnu.org/licenses/agpl-3.0.en.html) for more information.
 
 ```
