@@ -1,5 +1,5 @@
 
-# Content Reliability Assessment Extension 
+# Content Reliability Assessment Browser Extension 
 
 ## 📖 Overview
 
