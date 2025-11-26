@@ -322,14 +322,40 @@ document.addEventListener('DOMContentLoaded', () => {
         finalScoreEl.textContent = data.finalScore.toFixed(1);
         classificationEl.textContent = data.classification;
 
+        // Reset classes
+        const scoreHeader = document.getElementById('score-header');
+        scoreHeader.className = 'score-header';
+
         let typeClass = '';
+        let colorVar = '';
+
         switch (data.classification) {
-            case 'Factual': typeClass = 'type-factual'; break;
-            case 'Opinion': typeClass = 'type-opinion'; break;
-            case 'Fiction': typeClass = 'type-fiction'; break;
+            case 'Factual':
+                typeClass = 'type-factual';
+                colorVar = 'var(--green-600)';
+                break;
+            case 'Opinion':
+                typeClass = 'type-opinion';
+                colorVar = 'var(--blue-600)';
+                break;
+            case 'Fiction':
+                typeClass = 'type-fiction';
+                colorVar = 'var(--purple-600)';
+                break;
         }
 
-        scoreBox.className = `score-card ${typeClass}`;
+        scoreHeader.classList.add(typeClass);
+
+        // Update body colors based on classification/score
+        const scoreBody = document.querySelector('.score-body');
+        const reliabilityLabel = document.querySelector('.reliability-label');
+        const finalScoreValue = document.querySelector('.final-score-value');
+        const scoreMax = document.querySelector('.score-max');
+
+        scoreBody.style.borderColor = colorVar;
+        reliabilityLabel.style.color = colorVar;
+        finalScoreValue.style.color = colorVar;
+        scoreMax.style.color = colorVar;
 
         assessmentList.innerHTML = '';
         if (data.rawAssessment && data.rawAssessment.length > 0) {
@@ -358,6 +384,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return 'text-red';
     }
 
-    scoreBox.addEventListener('click', () => rawAssessmentDetails.classList.toggle('hidden'));
+    const viewDetailsLink = document.getElementById('view-details-link');
+    viewDetailsLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        rawAssessmentDetails.classList.toggle('hidden');
+        viewDetailsLink.textContent = rawAssessmentDetails.classList.contains('hidden') ? 'Review full assessment' : 'Hide full assessment';
+    });
+
     openSettingsBtn.addEventListener('click', () => chrome.runtime.openOptionsPage());
 });

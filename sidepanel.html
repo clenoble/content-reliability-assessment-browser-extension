@@ -44,15 +44,17 @@
         <!-- Results Section -->
         <div id="results-container" class="results-container hidden">
             <div id="score-box" class="score-card">
-                <div class="score-header">
-                    <div>
-                        <p class="classification-label" id="classification"></p>
-                        <p class="final-score-value" id="final-score"></p>
+                <div id="score-header" class="score-header">
+                    <p class="content-type-label">Content Type</p>
+                    <h2 id="classification" class="classification-value"></h2>
+                </div>
+                <div class="score-body">
+                    <p class="reliability-label">Reliability score</p>
+                    <div class="score-display">
+                        <span id="final-score" class="final-score-value"></span>
+                        <span class="score-max">/5</span>
                     </div>
-                    <div class="score-legend">
-                        <p class="score-legend-title">Final Score</p>
-                        <p class="score-legend-subtitle">(Click for details)</p>
-                    </div>
+                    <a href="#" id="view-details-link" class="view-details-link">Review full assessment</a>
                 </div>
             </div>
 
