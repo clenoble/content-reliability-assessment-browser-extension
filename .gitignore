@@ -3,9 +3,12 @@
 Thumbs.db
 Desktop.ini
 
-# Node modules (if added later)
+# Node modules and build artifacts
 node_modules/
 npm-debug.log
+package-lock.json
+dist/
+*.tsbuildinfo
 
 # Editor directories
 .idea/
