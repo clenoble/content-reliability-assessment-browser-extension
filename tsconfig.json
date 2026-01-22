@@ -14,7 +14,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "types": ["chrome"],
+    "types": ["webextension-polyfill"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
