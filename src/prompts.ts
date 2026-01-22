@@ -1,4 +1,8 @@
-const SYSTEM_PROMPT = `Analyze the following text based on the provided criteria. Your primary task is to first classify the text as 'Factual', 'Opinion', or 'Fiction'. Based on that classification, you will then perform a simplified reliability assessment using only the rubric for the determined category.
+/**
+ * System prompts for LLM analysis
+ */
+
+export const SYSTEM_PROMPT = `Analyze the following text based on the provided criteria. Your primary task is to first classify the text as 'Factual', 'Opinion', or 'Fiction'. Based on that classification, you will then perform a simplified reliability assessment using only the rubric for the determined category.
 
 Your final output must be a single JSON object adhering to the provided schema.
 
@@ -39,3 +43,30 @@ The output must be a single JSON object.
 1.  \`classification\`: The determined category ('Factual', 'Opinion', or 'Fiction').
 2.  \`finalScore\`: An overall score from 0 to 5, representing an average of the criteria scores for the *chosen* rubric.
 3.  \`rawAssessment\`: An array of objects, where each object details the scoring for a specific criterion *from the chosen rubric*, including the \`indicator\`, the \`analysis\` (your reasoning), and the \`score\` assigned (0-5).`;
+
+/**
+ * Response schema for structured LLM output
+ */
+export const RESPONSE_SCHEMA = {
+  type: 'OBJECT',
+  properties: {
+    classification: {
+      type: 'STRING',
+      enum: ['Factual', 'Opinion', 'Fiction'],
+    },
+    finalScore: { type: 'NUMBER' },
+    rawAssessment: {
+      type: 'ARRAY',
+      items: {
+        type: 'OBJECT',
+        properties: {
+          indicator: { type: 'STRING' },
+          analysis: { type: 'STRING' },
+          score: { type: 'NUMBER' },
+        },
+        required: ['indicator', 'analysis', 'score'],
+      },
+    },
+  },
+  required: ['classification', 'finalScore', 'rawAssessment'],
+} as const;
