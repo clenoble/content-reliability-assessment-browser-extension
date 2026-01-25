@@ -63,7 +63,7 @@ async function handleExtraction(): Promise<void> {
     try {
       const results = await browser.scripting.executeScript({
         target: { tabId: tab.id! },
-        func: () => document.body.textContent,
+        func: () => document.body.innerText,
       });
 
       if (!results || !results[0] || !results[0].result) {

@@ -4,7 +4,7 @@
  * Copies Firefox-specific manifest and builds the extension
  */
 
-import { copyFileSync, rmSync, mkdirSync, existsSync } from 'fs';
+import { copyFileSync, rmSync, mkdirSync, existsSync, cpSync } from 'fs';
 import { execSync } from 'child_process';
 
 console.log('🦊 Building for Firefox...\n');
@@ -34,6 +34,6 @@ if (existsSync('dist-firefox')) {
 mkdirSync('dist-firefox');
 
 // Copy dist to dist-firefox
-execSync('cp -r dist/* dist-firefox/', { stdio: 'inherit' });
+cpSync('dist', 'dist-firefox', { recursive: true });
 
 console.log('\n✅ Firefox build complete in dist-firefox/\n');

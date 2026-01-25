@@ -4,7 +4,7 @@
  * Copies Chrome-specific manifest and builds the extension
  */
 
-import { copyFileSync, rmSync, mkdirSync, existsSync } from 'fs';
+import { copyFileSync, rmSync, mkdirSync, existsSync, cpSync } from 'fs';
 import { execSync } from 'child_process';
 
 console.log('🔷 Building for Chrome/Edge...\n');
@@ -34,6 +34,6 @@ if (existsSync('dist-chrome')) {
 mkdirSync('dist-chrome');
 
 // Copy dist to dist-chrome
-execSync('cp -r dist/* dist-chrome/', { stdio: 'inherit' });
+cpSync('dist', 'dist-chrome', { recursive: true });
 
 console.log('\n✅ Chrome/Edge build complete in dist-chrome/\n');
