@@ -14,6 +14,15 @@ This is a Chrome browser extension (Manifest V3) that helps users systematically
 - **LLM Providers**: Google Gemini (cloud) or Mistral via Ollama (local)
 - **License**: AGPL-3.0
 
+## Development Environment
+
+- **OS**: Windows 11
+- **Shell**: PowerShell or Command Prompt (cmd.exe)
+- **Node.js**: Required (install from https://nodejs.org)
+- **Package Manager**: npm (bundled with Node.js)
+
+All commands in this guide are Windows-compatible. Use PowerShell or Command Prompt to run them.
+
 ## Project Structure
 
 ```
@@ -44,7 +53,9 @@ content-reliability-assessment-browser-extension/
 
 ## Development Commands
 
-```bash
+Run these commands in PowerShell or Command Prompt:
+
+```powershell
 # Install dependencies
 npm install
 
@@ -58,7 +69,13 @@ npm run build
 npm run dev
 ```
 
-**Build output**: Load the `dist/` folder as an unpacked extension in Chrome.
+**Build output**: Load the `dist\` folder as an unpacked extension in Chrome.
+
+### Windows-Specific Notes
+
+- Use backslashes (`\`) for file paths in Command Prompt, or forward slashes (`/`) in PowerShell
+- If you encounter script execution policy errors in PowerShell, run: `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
+- Node.js must be added to PATH during installation (default option)
 
 ## Key Architecture
 
@@ -155,6 +172,15 @@ User clicks "Analyze" → sidepanel requests permission → sends ra_request_ext
 - Requires Ollama running locally with CORS configured
 - JSON output format enforced via prompt
 
+**Windows Setup for Ollama**:
+1. Download Ollama for Windows from https://ollama.com/download/windows
+2. Run the installer and follow prompts
+3. Open PowerShell and run: `ollama pull mistral`
+4. Start Ollama with CORS enabled:
+   ```powershell
+   $env:OLLAMA_ORIGINS="*"; ollama serve
+   ```
+
 ### Response Schema (from `src/prompts.ts`)
 
 ```typescript
@@ -199,12 +225,13 @@ Edit the `SYSTEM_PROMPT` in `src/prompts.ts`. The rubric has three sections:
 
 ## Testing the Extension
 
-1. Run `npm run build`
-2. Go to `chrome://extensions/`
-3. Enable "Developer mode"
-4. Click "Load unpacked" and select the `dist/` folder
-5. Navigate to any webpage and click the extension icon
-6. Configure API key in Settings if using Gemini
+1. Open PowerShell in the project directory
+2. Run `npm run build`
+3. Open Chrome and go to `chrome://extensions/`
+4. Enable "Developer mode" (toggle in top-right)
+5. Click "Load unpacked" and browse to the `dist` folder in your project
+6. Navigate to any webpage and click the extension icon
+7. Configure API key in Settings if using Gemini
 
 ## Roadmap Reference
 
