@@ -25,6 +25,58 @@ The extension supports a dual-mode backend for flexibility and privacy:
 | **Cloud** | **Google Gemini** | User API Key | High performance, requires internet connection. |
 | **Local** | **Mistral** | [Ollama](https://ollama.com/) | Privacy-focused, offline capability, runs locally. |
 
+## 🚀 Getting Started
+
+### Installation
+
+1. **Build the extension:**
+   ```bash
+   npm install
+   npm run build:chrome    # For Chrome/Edge
+   npm run build:firefox   # For Firefox
+   ```
+
+2. **Load in your browser:**
+   - **Chrome/Edge:** Load `dist-chrome` folder as an unpacked extension (Developer mode)
+   - **Firefox:** Load `dist-firefox` folder as a temporary add-on
+
+3. **Configure your AI model:**
+   - Click the extension icon and open Settings
+   - Choose between Cloud (Gemini) or Local (Mistral/Ollama)
+
+### Option 1: Cloud Mode with Gemini (Easiest)
+
+1. Get a free API key from [Google AI Studio](https://aistudio.google.com/app/apikey)
+2. Enter your API key in the extension settings
+3. Select "Gemini" as your model
+4. Start analyzing pages
+
+### Option 2: Local Mode with Ollama (Privacy-Focused)
+
+Run AI models completely locally without sending any data to external servers.
+
+**Quick Setup (Windows):**
+```bash
+# Install Ollama
+winget install Ollama.Ollama
+
+# Pull the Mistral model
+ollama pull mistral
+
+# Configure CORS (PowerShell as Administrator)
+[System.Environment]::SetEnvironmentVariable('OLLAMA_ORIGINS', '*', 'Machine')
+```
+
+Then restart Ollama and select "Mistral (Local - Ollama)" in extension settings.
+
+**📖 Full Setup Guide:** See [docs/OLLAMA_SETUP_WINDOWS.md](docs/OLLAMA_SETUP_WINDOWS.md) for complete instructions, troubleshooting, and alternative models.
+
+**Benefits of local models:**
+- ✅ Complete privacy - data never leaves your computer
+- ✅ No API key required
+- ✅ Works offline after initial download
+- ✅ No usage limits or costs
+
 ## 📚 Documentation & Frameworks
 
 This tool is built upon rigorous information literacy frameworks. We highly recommend contributors read the core documentation located in the docs/ directory:
@@ -35,6 +87,7 @@ This tool is built upon rigorous information literacy frameworks. We highly reco
 | **Factual Rubric** | Scoring criteria for evidentiary integrity and citation quality. |
 | **Opinion Rubric** | Criteria for assessing logic, rhetorical style, and transparency. |
 | **Fiction Rubric** | Guidelines for transparency in satire and creative writing. |
+| **[Ollama Setup Guide](docs/OLLAMA_SETUP_WINDOWS.md)** | Complete guide for setting up local Mistral model on Windows. |
 
 ## 🗺️ Roadmap: Towards the Full Framework
 

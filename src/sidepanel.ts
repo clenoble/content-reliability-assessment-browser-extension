@@ -3,8 +3,8 @@
  * Handles text extraction, LLM API calls, and results display
  */
 
+import browser from 'webextension-polyfill';
 import type {
-  RuntimeMessage,
   TabInfo,
   AnalysisResult,
   GeminiRequestPayload,
@@ -19,8 +19,8 @@ import { logger } from './utils/logger';
 const CONTEXT = 'sidepanel';
 
 // Listen for messages from background script
-chrome.runtime.onMessage.addListener(
-  (message: RuntimeMessage, _sender: chrome.runtime.MessageSender, sendResponse: (response?: { ok: boolean }) => void) => {
+browser.runtime.onMessage.addListener(
+  (message: any, _sender: browser.Runtime.MessageSender) => {
     logger.debug(CONTEXT, 'Received message', message.type);
 
     if (message.type === 'ra_text_extracted') {
@@ -28,22 +28,15 @@ chrome.runtime.onMessage.addListener(
       if (window.handleExtractedText) {
         window.handleExtractedText(message.text, message.tabInfo);
       }
-      try {
-        sendResponse({ ok: true });
-      } catch (e) {
-        /* ignore */
-      }
+      return Promise.resolve({ ok: true });
     } else if (message.type === 'ra_extraction_error') {
       logger.error(CONTEXT, 'Extraction error', message.error);
       if (window.handleExtractionError) {
         window.handleExtractionError(message.error);
       }
-      try {
-        sendResponse({ ok: true });
-      } catch (e) {
-        /* ignore */
-      }
+      return Promise.resolve({ ok: true });
     }
+    return Promise.resolve({ ok: false });
   }
 );
 
@@ -70,21 +63,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const finalScoreEl = document.getElementById('final-score') as HTMLElement;
   const assessmentList = document.getElementById('assessment-list') as HTMLElement;
 
-  let currentTab: chrome.tabs.Tab | null = null;
+  let currentTab: browser.Tabs.Tab | null = null;
 
   // Track the active tab to ensure we have the URL ready for the permission request
-  function updateCurrentTab(): void {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      if (tabs && tabs[0]) {
-        currentTab = tabs[0];
-        logger.debug(CONTEXT, 'Current tab updated', currentTab.url);
-      }
-    });
+  async function updateCurrentTab(): Promise<void> {
+    const tabs = await browser.tabs.query({ active: true, currentWindow: true });
+    if (tabs && tabs[0]) {
+      currentTab = tabs[0];
+      logger.debug(CONTEXT, 'Current tab updated', currentTab.url);
+    }
   }
 
   updateCurrentTab();
-  chrome.tabs.onActivated.addListener(updateCurrentTab);
-  chrome.tabs.onUpdated.addListener(updateCurrentTab);
+  browser.tabs.onActivated.addListener(updateCurrentTab);
+  browser.tabs.onUpdated.addListener(updateCurrentTab);
 
   // Status display functions
   function showStatus(type: 'fetching' | 'analyzing' | 'success' | 'error', message: string, detail = ''): void {
@@ -130,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!currentTab) {
       // Try one last time if cache is empty
-      const tabs = await chrome.tabs.query({ active: true, currentWindow: true });
+      const tabs = await browser.tabs.query({ active: true, currentWindow: true });
       if (tabs && tabs[0]) currentTab = tabs[0];
     }
 
@@ -146,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
       logger.debug(CONTEXT, 'Requesting permission for', origin);
 
       // Request permission IMMEDIATELY to satisfy "user gesture" requirement
-      const granted = await chrome.permissions.request({
+      const granted = await browser.permissions.request({
         origins: [origin],
       });
 
@@ -160,14 +152,14 @@ document.addEventListener('DOMContentLoaded', () => {
       showStatus('fetching', 'Fetching page text...', 'Please wait while we extract text from the current page');
 
       // Now request extraction from background script
-      chrome.runtime.sendMessage({ type: 'ra_request_extraction' }, () => {
-        if (chrome.runtime.lastError) {
-          logger.error(CONTEXT, 'Failed to send extraction request', chrome.runtime.lastError);
-          showStatus('error', 'Failed to communicate with background script', chrome.runtime.lastError.message);
-        } else {
-          logger.debug(CONTEXT, 'Extraction request sent');
-        }
-      });
+      try {
+        await browser.runtime.sendMessage({ type: 'ra_request_extraction' });
+        logger.debug(CONTEXT, 'Extraction request sent');
+      } catch (err) {
+        const error = err as Error;
+        logger.error(CONTEXT, 'Failed to send extraction request', error);
+        showStatus('error', 'Failed to communicate with background script', error.message);
+      }
 
       // SECURITY FIX: Remove polling - rely solely on message listener
       // The message listener will call handleExtractedText when data arrives
@@ -223,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.handleExtractionError = handleExtractionError;
 
   async function performAnalysis(text: string): Promise<AnalysisResult> {
-    const settings = await chrome.storage.sync.get([STORAGE_KEYS.SELECTED_MODEL, STORAGE_KEYS.GEMINI_API_KEY]);
+    const settings = await browser.storage.sync.get([STORAGE_KEYS.SELECTED_MODEL, STORAGE_KEYS.GEMINI_API_KEY]);
     const selectedModel = settings[STORAGE_KEYS.SELECTED_MODEL] || 'gemini';
 
     if (selectedModel === 'gemini') {
@@ -428,5 +420,5 @@ document.addEventListener('DOMContentLoaded', () => {
       : 'Hide full assessment';
   });
 
-  openSettingsBtn.addEventListener('click', () => chrome.runtime.openOptionsPage());
+  openSettingsBtn.addEventListener('click', () => browser.runtime.openOptionsPage());
 });
