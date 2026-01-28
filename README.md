@@ -88,6 +88,7 @@ This tool is built upon rigorous information literacy frameworks. We highly reco
 | **Opinion Rubric** | Criteria for assessing logic, rhetorical style, and transparency. |
 | **Fiction Rubric** | Guidelines for transparency in satire and creative writing. |
 | **[Ollama Setup Guide](docs/OLLAMA_SETUP_WINDOWS.md)** | Complete guide for setting up local Mistral model on Windows. |
+| **[Privacy Policy](docs/privacy_policy.md)** | How we handle your data, third-party services, and your privacy rights. |
 
 ## 🗺️ Roadmap: Towards the Full Framework
 
