@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Reliability Assessment</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    </style>
+  <script type="module" crossorigin src="/chunks/modulepreload-polyfill-B5Qt9EMX.js"></script>
+  <script type="module" crossorigin src="/chunks/constants-BxEPguL7.js"></script>
+  <script type="module" crossorigin src="/chunks/logger-GwZmU3gw.js"></script>
+  <script type="module" crossorigin src="/chunks/sidepanel-DQqzTkPW.js"></script>
+  <link rel="stylesheet" crossorigin href="/assets/sidepanel.css">
+</head>
+
+<body>
+    <div class="main-card">
+        <h1>Reliability Assessment</h1>
+        <p class="subtitle">Analyze text for Factual, Opinion, or Fiction content.</p>
+
+        <!-- Analyze Button (for user gesture) -->
+        <button id="analyze-button" class="btn-primary">
+            <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            Analyze Page Text
+        </button>
+
+        <!-- Status Message Area -->
+        <div id="status-area" class="status-box hidden">
+            <span id="status-icon" class="status-icon-wrapper"></span>
+            <div class="status-content">
+                <p id="status-message" class="status-message"></p>
+                <p id="status-detail" class="status-detail hidden"></p>
+            </div>
+        </div>
+
+        <!-- Settings Link -->
+        <div class="settings-link-container">
+            <button id="open-settings" class="btn-link">Configure Settings</button>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results-container" class="results-container hidden">
+            <div id="score-box" class="score-card">
+                <div id="score-header" class="score-header">
+                    <p class="content-type-label">Content Type</p>
+                    <h2 id="classification" class="classification-value"></h2>
+                </div>
+                <div class="score-body">
+                    <p class="reliability-label">Reliability score</p>
+                    <div class="score-display">
+                        <span id="final-score" class="final-score-value"></span>
+                        <span class="score-max">/5</span>
+                    </div>
+                    <a href="#" id="view-details-link" class="view-details-link">Review full assessment</a>
+                </div>
+            </div>
+
+            <div id="raw-assessment-details" class="raw-assessment-details hidden">
+                <h3 class="details-title">Raw Assessment</h3>
+                <div id="assessment-list" class="assessment-list"></div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

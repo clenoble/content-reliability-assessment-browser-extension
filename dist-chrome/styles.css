@@ -1,0 +1,440 @@
+:root {
+    /* Color Palette (based on Tailwind defaults) */
+    --white: #ffffff;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-500: #6b7280;
+    --gray-600: #4b5563;
+    --gray-700: #374151;
+    --gray-800: #1f2937;
+
+    --blue-50: #eff6ff;
+    --blue-200: #bfdbfe;
+    --blue-500: #3b82f6;
+    --blue-600: #2563eb;
+    --blue-700: #1d4ed8;
+    --blue-800: #1e40af;
+
+    --green-50: #f0fdf4;
+    --green-200: #bbf7d0;
+    --green-600: #16a34a;
+    --green-700: #15803d;
+    --green-800: #166534;
+
+    --purple-50: #faf5ff;
+    --purple-200: #e9d5ff;
+    --purple-600: #9333ea;
+    --purple-700: #7e22ce;
+    --purple-800: #6b21a8;
+
+    --red-50: #fef2f2;
+    --red-200: #fecaca;
+    --red-600: #dc2626;
+    --red-800: #991b1b;
+    font-weight: 700;
+    /* font-bold */
+    color: var(--gray-800);
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--white);
+    margin: 0;
+    padding: 1rem;
+    color: var(--gray-800);
+}
+
+/* Utilities */
+.hidden {
+    display: none !important;
+}
+
+/* Layout & Containers */
+.main-card {
+    background-color: transparent;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+h1 {
+    font-size: 1.5rem;
+    /* text-2xl */
+    font-weight: 700;
+    /* font-bold */
+    color: var(--gray-800);
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    font-size: 0.875rem;
+    /* text-sm */
+    color: var(--gray-500);
+    margin-bottom: 1rem;
+    margin-top: 0;
+}
+
+/* Buttons */
+.btn-primary {
+    width: 100%;
+    background-color: var(--blue-600);
+    color: var(--white);
+    font-weight: 700;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease-in-out;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin-bottom: 0.75rem;
+}
+
+.btn-primary:hover {
+    background-color: var(--blue-700);
+}
+
+.btn-primary:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--blue-500), 0 0 0 4px var(--white);
+    /* simplified ring */
+}
+
+.btn-icon {
+    height: 1.25rem;
+    width: 1.25rem;
+    margin-right: 0.5rem;
+}
+
+.settings-link-container {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: var(--blue-500);
+    font-size: 0.75rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}
+
+/* Status Area */
+.status-box {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid transparent;
+    transition: all 0.3s;
+    box-sizing: border-box;
+}
+
+.status-icon-wrapper {
+    margin-right: 0.75rem;
+    display: flex;
+    align-items: center;
+}
+
+.status-content {
+    flex: 1;
+}
+
+.status-message {
+    font-weight: 600;
+    margin: 0;
+}
+
+.status-detail {
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+    margin-bottom: 0;
+    opacity: 0.8;
+}
+
+/* Status Variants */
+.status-fetching {
+    background-color: var(--blue-50);
+    border-color: var(--blue-200);
+}
+
+.status-fetching .status-message {
+    color: var(--blue-800);
+}
+
+.status-fetching .status-detail {
+    color: var(--blue-600);
+}
+
+.status-fetching svg,
+.status-fetching .spinner {
+    color: var(--blue-600);
+}
+
+.status-analyzing {
+    background-color: var(--purple-50);
+    border-color: var(--purple-200);
+}
+
+.status-analyzing .status-message {
+    color: var(--purple-800);
+}
+
+.status-analyzing .status-detail {
+    color: var(--purple-600);
+}
+
+.status-analyzing svg,
+.status-analyzing .spinner {
+    color: var(--purple-600);
+}
+
+.status-success {
+    background-color: var(--green-50);
+    border-color: var(--green-200);
+}
+
+.status-success .status-message {
+    color: var(--green-800);
+}
+
+.status-success .status-detail {
+    color: var(--green-600);
+}
+
+.status-success svg {
+    color: var(--green-600);
+}
+
+.status-error {
+    background-color: var(--red-50);
+    border-color: var(--red-200);
+}
+
+.status-error .status-message {
+    color: var(--red-800);
+}
+
+.status-error .status-detail {
+    color: var(--red-600);
+}
+
+.status-error svg {
+    color: var(--red-600);
+}
+
+/* Spinner Animation */
+.spinner {
+    height: 1.25rem;
+    width: 1.25rem;
+    border-bottom: 2px solid currentColor;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Results Section */
+.results-container {
+    margin-top: 1.5rem;
+}
+
+.score-card {
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+.score-card:hover {
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+/* Score Card Variants */
+/* Score Card Variants - Applied to Header */
+.score-header.type-factual {
+    background-color: var(--green-600);
+}
+
+.score-header.type-opinion {
+    background-color: var(--blue-600);
+}
+
+.score-header.type-fiction {
+    background-color: var(--purple-600);
+}
+
+.score-header {
+    padding: 1.5rem;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    color: var(--white);
+    text-align: center;
+}
+
+.content-type-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin: 0;
+    opacity: 0.9;
+    /*color: var(--white);*/
+}
+
+.classification-value {
+    font-size: 1.875rem;
+    /* text-3xl */
+    font-weight: 800;
+    margin: 0.25rem 0 0 0;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+    /*color: var(--white);*/
+}
+
+.score-body {
+    background-color: var(--white);
+    border: 1px solid var(--green-600);
+    /* Default border, will change with JS if needed */
+    border-top: none;
+    border-bottom-left-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.reliability-label {
+    font-size: 0.875rem;
+    color: var(--green-600);
+    /* Default color */
+    font-weight: 500;
+    margin: 0;
+}
+
+.score-display {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    margin: 0.5rem 0 1rem 0;
+}
+
+.final-score-value {
+    font-size: 3.75rem;
+    /* text-6xl */
+    font-weight: 700;
+    color: var(--green-600);
+    /* Default color */
+    line-height: 1;
+}
+
+.score-max {
+    font-size: 1.5rem;
+    /* text-2xl */
+    color: var(--green-600);
+    /* Default color */
+    font-weight: 500;
+    margin-left: 0.25rem;
+}
+
+.view-details-link {
+    display: inline-block;
+    color: var(--blue-600);
+    text-decoration: underline;
+    font-size: 0.875rem;
+    cursor: pointer;
+}
+
+.view-details-link:hover {
+    color: var(--blue-800);
+}
+
+/* Raw Assessment Details */
+.raw-assessment-details {
+    margin-top: 1rem;
+    /*border: 1px solid var(--gray-200);*/
+    /* border-radius: 0.5rem;*/
+    background-color: transparent;
+    /*padding: 1rem;*/
+}
+
+.details-title {
+    font-size: 1.125rem;
+    /* text-lg */
+    font-weight: 600;
+    color: var(--gray-800);
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+}
+
+.assessment-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    /* space-y-3 */
+}
+
+.assessment-item {
+    padding: 0.75rem;
+    background-color: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 0.375rem;
+    /* rounded-md */
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+.assessment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.25rem;
+}
+
+.assessment-indicator {
+    font-weight: 600;
+    color: var(--gray-700);
+    margin: 0;
+}
+
+.assessment-score {
+    font-weight: 700;
+    font-size: 1.125rem;
+    /* text-lg */
+}
+
+.assessment-analysis {
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: var(--gray-600);
+    margin: 0;
+}
+
+/* Score Colors */
+.text-green {
+    color: var(--green-600);
+}
+
+.text-yellow {
+    color: var(--yellow-600);
+}
+
+.text-red {
+    color: var(--red-600);
+}
