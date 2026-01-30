@@ -6,6 +6,9 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && node post-build.js",
+    "build:chrome": "tsc && node build-chrome.js",
+    "build:firefox": "tsc && node build-firefox.js",
+    "build:all": "npm run build:chrome && npm run build:firefox",
     "preview": "vite preview",
     "type-check": "tsc --noEmit"
   },
@@ -13,13 +16,23 @@
     "type": "git",
     "url": "http://local_proxy@127.0.0.1:33204/git/clenoble/content-reliability-assessment-browser-extension"
   },
-  "keywords": ["browser-extension", "content-assessment", "reliability", "fact-checking", "chrome-extension"],
+  "keywords": [
+    "browser-extension",
+    "content-assessment",
+    "reliability",
+    "fact-checking",
+    "chrome-extension"
+  ],
   "author": "",
   "license": "AGPL-3.0",
   "devDependencies": {
     "@types/chrome": "^0.1.36",
+    "@types/webextension-polyfill": "^0.12.4",
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
     "vite-plugin-web-extension": "^4.5.0"
+  },
+  "dependencies": {
+    "webextension-polyfill": "^0.12.0"
   }
 }

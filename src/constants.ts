@@ -16,7 +16,7 @@ export const API_CONFIG = {
     BASE_URL: 'http://localhost:11434/api/chat',
     MODEL: 'mistral',
   },
-  TIMEOUT_MS: 30000, // 30 seconds
+  TIMEOUT_MS: 120000, // 120 seconds (2 minutes) - needed for local models
 } as const;
 
 /**
