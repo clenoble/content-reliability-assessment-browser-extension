@@ -203,4 +203,4 @@ All three target browsers (Chrome, Edge, Firefox) are now fully supported with a
 
 **Build Time**: ~400ms per browser
 **Bundle Size**: 15.8 KB (5.71 KB gzipped)
-**Browsers Supported**: Chrome 114+, Edge 114+, Firefox 109+
+**Browsers Supported**: Chrome 114+, Edge 114+, Firefox 128+
