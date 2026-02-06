@@ -28,12 +28,15 @@ execSync('node post-build.js', { stdio: 'inherit' });
 
 // Create dist-chrome directory
 console.log('📦 Creating dist-chrome package...');
-if (existsSync('dist-chrome')) {
-  rmSync('dist-chrome', { recursive: true });
+try {
+  if (existsSync('dist-chrome')) {
+    rmSync('dist-chrome', { recursive: true, force: true });
+  }
+  cpSync('dist', 'dist-chrome', { recursive: true, force: true });
+} catch (e) {
+  console.warn('⚠️  Could not update dist-chrome/ (may be locked by browser).');
+  console.warn('   Close Chrome and rebuild, or load the extension from dist/ instead.');
+  process.exit(1);
 }
-mkdirSync('dist-chrome');
-
-// Copy dist to dist-chrome
-cpSync('dist', 'dist-chrome', { recursive: true });
 
 console.log('\n✅ Chrome/Edge build complete in dist-chrome/\n');

@@ -319,6 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'Content-Type': 'application/json',
           'x-api-key': apiKey,
           'anthropic-version': API_CONFIG.CLAUDE.API_VERSION,
+          'anthropic-dangerous-direct-browser-access': 'true',
         },
         body: JSON.stringify(payload),
         signal: controller.signal,
@@ -333,7 +334,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const result: ClaudeResponse = await response.json();
       try {
-        return JSON.parse(result.content[0].text);
+        let text = result.content[0].text.trim();
+        // Strip markdown code fences if Claude wrapped the JSON
+        const fenceMatch = text.match(/^```(?:json)?\s*\n?([\s\S]*?)\n?\s*```$/);
+        if (fenceMatch) {
+          text = fenceMatch[1].trim();
+        }
+        return JSON.parse(text);
       } catch (e) {
         throw new Error(ERROR_MESSAGES.JSON_PARSE_FAILED);
       }

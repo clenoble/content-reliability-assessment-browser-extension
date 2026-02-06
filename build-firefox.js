@@ -28,12 +28,15 @@ execSync('node post-build.js', { stdio: 'inherit' });
 
 // Create dist-firefox directory
 console.log('📦 Creating dist-firefox package...');
-if (existsSync('dist-firefox')) {
-  rmSync('dist-firefox', { recursive: true });
+try {
+  if (existsSync('dist-firefox')) {
+    rmSync('dist-firefox', { recursive: true, force: true });
+  }
+  cpSync('dist', 'dist-firefox', { recursive: true, force: true });
+} catch (e) {
+  console.warn('⚠️  Could not update dist-firefox/ (may be locked by browser).');
+  console.warn('   Close Firefox and rebuild, or load the extension from dist/ instead.');
+  process.exit(1);
 }
-mkdirSync('dist-firefox');
-
-// Copy dist to dist-firefox
-cpSync('dist', 'dist-firefox', { recursive: true });
 
 console.log('\n✅ Firefox build complete in dist-firefox/\n');
