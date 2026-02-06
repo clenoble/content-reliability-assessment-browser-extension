@@ -9,6 +9,8 @@ import type {
   AnalysisResult,
   GeminiRequestPayload,
   GeminiResponse,
+  ClaudeRequestPayload,
+  ClaudeResponse,
   MistralRequestPayload,
   MistralResponse,
 } from './types';
@@ -215,7 +217,11 @@ document.addEventListener('DOMContentLoaded', () => {
   window.handleExtractionError = handleExtractionError;
 
   async function performAnalysis(text: string): Promise<AnalysisResult> {
-    const settings = await browser.storage.sync.get([STORAGE_KEYS.SELECTED_MODEL, STORAGE_KEYS.GEMINI_API_KEY]);
+    const settings = await browser.storage.sync.get([
+      STORAGE_KEYS.SELECTED_MODEL,
+      STORAGE_KEYS.GEMINI_API_KEY,
+      STORAGE_KEYS.CLAUDE_API_KEY,
+    ]);
     const selectedModel = settings[STORAGE_KEYS.SELECTED_MODEL] || 'gemini';
 
     if (selectedModel === 'gemini') {
@@ -223,6 +229,11 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error(ERROR_MESSAGES.API_KEY_MISSING);
       }
       return await callGeminiAPI(text, settings[STORAGE_KEYS.GEMINI_API_KEY] as string);
+    } else if (selectedModel === 'claude') {
+      if (!settings[STORAGE_KEYS.CLAUDE_API_KEY]) {
+        throw new Error(ERROR_MESSAGES.API_KEY_MISSING);
+      }
+      return await callClaudeAPI(text, settings[STORAGE_KEYS.CLAUDE_API_KEY] as string);
     } else if (selectedModel === 'mistral') {
       return await callMistralAPI(text);
     } else {
@@ -271,6 +282,58 @@ document.addEventListener('DOMContentLoaded', () => {
       const result: GeminiResponse = await response.json();
       try {
         return JSON.parse(result.candidates[0].content.parts[0].text);
+      } catch (e) {
+        throw new Error(ERROR_MESSAGES.JSON_PARSE_FAILED);
+      }
+    } catch (error) {
+      clearTimeout(timeoutId);
+      if ((error as Error).name === 'AbortError') {
+        throw new Error('Request timeout: Analysis took too long. Please try with a shorter text.');
+      }
+      throw error;
+    }
+  }
+
+  async function callClaudeAPI(text: string, apiKey: string): Promise<AnalysisResult> {
+    const API_URL = `${API_CONFIG.CLAUDE.BASE_URL}/messages`;
+
+    const claudeSystemPrompt = SYSTEM_PROMPT + `\n\nYou MUST respond with ONLY the JSON object. No markdown, no code fences, no explanation.`;
+
+    const payload: ClaudeRequestPayload = {
+      model: API_CONFIG.CLAUDE.MODEL,
+      max_tokens: API_CONFIG.CLAUDE.MAX_TOKENS,
+      temperature: API_CONFIG.CLAUDE.TEMPERATURE,
+      system: claudeSystemPrompt,
+      messages: [
+        { role: 'user', content: `Text to Analyze: "${text}"` },
+      ],
+    };
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), API_CONFIG.TIMEOUT_MS);
+
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': API_CONFIG.CLAUDE.API_VERSION,
+        },
+        body: JSON.stringify(payload),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        const errorBody = await response.text();
+        throw new Error(`${ERROR_MESSAGES.API_REQUEST_FAILED}: ${response.status} - ${errorBody}`);
+      }
+
+      const result: ClaudeResponse = await response.json();
+      try {
+        return JSON.parse(result.content[0].text);
       } catch (e) {
         throw new Error(ERROR_MESSAGES.JSON_PARSE_FAILED);
       }

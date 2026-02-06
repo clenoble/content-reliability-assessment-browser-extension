@@ -10,7 +10,7 @@ export type Classification = 'Factual' | 'Opinion' | 'Fiction';
 /**
  * LLM model types
  */
-export type ModelType = 'gemini' | 'mistral';
+export type ModelType = 'gemini' | 'mistral' | 'claude';
 
 /**
  * Individual assessment criterion with scoring
@@ -45,6 +45,7 @@ export interface TabInfo {
 export interface Settings {
   selectedModel: ModelType;
   geminiApiKey: string;
+  claudeApiKey: string;
 }
 
 /**
@@ -131,6 +132,30 @@ export interface GeminiResponse {
         text: string;
       }>;
     };
+  }>;
+}
+
+/**
+ * Claude (Anthropic) API request payload
+ */
+export interface ClaudeRequestPayload {
+  model: string;
+  max_tokens: number;
+  temperature: number;
+  system: string;
+  messages: Array<{
+    role: 'user' | 'assistant';
+    content: string;
+  }>;
+}
+
+/**
+ * Claude (Anthropic) API response
+ */
+export interface ClaudeResponse {
+  content: Array<{
+    type: string;
+    text: string;
   }>;
 }
 

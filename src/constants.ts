@@ -16,6 +16,13 @@ export const API_CONFIG = {
     BASE_URL: 'http://localhost:11434/api/chat',
     MODEL: 'mistral',
   },
+  CLAUDE: {
+    BASE_URL: 'https://api.anthropic.com/v1',
+    MODEL: 'claude-sonnet-4-5-20250929',
+    TEMPERATURE: 0.1,
+    MAX_TOKENS: 4096,
+    API_VERSION: '2023-06-01',
+  },
   TIMEOUT_MS: 120000, // 120 seconds (2 minutes) - needed for local models
 } as const;
 
@@ -29,6 +36,7 @@ export const STORAGE_KEYS = {
   TIMESTAMP: 'ra_timestamp',
   SELECTED_MODEL: 'selectedModel',
   GEMINI_API_KEY: 'geminiApiKey',
+  CLAUDE_API_KEY: 'claudeApiKey',
 } as const;
 
 /**

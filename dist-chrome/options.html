@@ -11,7 +11,7 @@
     </style>
   <script type="module" crossorigin src="./options.js"></script>
   <link rel="modulepreload" crossorigin href="./chunks/modulepreload-polyfill-B5Qt9EMX.js">
-  <link rel="modulepreload" crossorigin href="./chunks/constants-BxEPguL7.js">
+  <link rel="modulepreload" crossorigin href="./chunks/constants-D7P0j8Gc.js">
 </head>
 <body class="bg-gray-50 p-8">
     <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
@@ -26,6 +26,7 @@
                     </label>
                     <select id="model-select" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition">
                         <option value="gemini">Gemini (Google API)</option>
+                        <option value="claude">Claude (Anthropic API)</option>
                         <option value="mistral">Mistral 7B (Local via Ollama)</option>
                     </select>
                 </div>
@@ -38,6 +39,17 @@
                     <input type="password" id="gemini-api-key" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition" placeholder="Enter your API Key">
                     <p class="text-xs text-gray-500 mt-1">
                         Get a key from <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-blue-600 hover:underline">Google AI Studio</a>.
+                    </p>
+                </div>
+
+                <!-- Claude Configuration -->
+                <div id="claude-config" class="mb-6 hidden">
+                    <label for="claude-api-key" class="block text-sm font-medium text-gray-700 mb-2">
+                        Claude API Key
+                    </label>
+                    <input type="password" id="claude-api-key" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none transition" placeholder="Enter your API Key">
+                    <p class="text-xs text-gray-500 mt-1">
+                        Get a key from <a href="https://console.anthropic.com/settings/keys" target="_blank" class="text-blue-600 hover:underline">Anthropic Console</a>.
                     </p>
                 </div>
 
